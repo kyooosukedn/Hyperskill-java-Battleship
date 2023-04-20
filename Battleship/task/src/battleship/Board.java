@@ -45,12 +45,16 @@ public class Board {
         Point point = new Point(targetRow, targetColumn);
 
         for (Ship s : ships) {
-            if (!s.checkHit(point)) {
+            if (s.isHit(point) && !s.isSunk()) {
                 isShipHit = true;
-                isShipSank = s.isSunk();
+                this.board[targetRow][targetColumn] = CellState.HIT.getSymbol();
+                break;
+            } else if (s.isHit(point) && s.isSunk()) {
+                isShipHit = true;
+                isShipSank = true;
+                this.board[targetRow][targetColumn] = CellState.HIT.getSymbol();
                 break;
             }
-
         }
 
         if (isShipHit && !isShipSank) {
@@ -66,7 +70,7 @@ public class Board {
 
         } else {
             System.out.println("You missed!");
-            this.board[targetRow][targetRow] = CellState.MISSED.getSymbol();
+            this.board[targetRow][targetColumn] = CellState.MISSED.getSymbol();
         }
         return false;
     }

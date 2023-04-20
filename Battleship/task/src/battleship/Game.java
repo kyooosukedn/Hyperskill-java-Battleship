@@ -20,7 +20,7 @@ public class Game {
             System.out.println("---------------------");
             player1.printBoard();
             System.out.println("Player 1, it's your turn:");
-            gameOver = player2.getPlayerBoard().playerShoots();
+            gameOver = player1.getPlayerBoard().playerShoots();
             if (gameOver) {
                 break;
             }
@@ -30,7 +30,7 @@ public class Game {
             System.out.println("---------------------");
             player2.printBoard();
             System.out.println("Player 2, it's your turn:");
-            gameOver = player1.getPlayerBoard().playerShoots();
+            gameOver = player2.getPlayerBoard().playerShoots();
             if (gameOver) {
                 break;
             }

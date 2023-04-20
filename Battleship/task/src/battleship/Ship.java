@@ -39,22 +39,48 @@ public class Ship {
 
     }
 
-    public boolean isSunk() {
-        for (boolean hit : hitStatus) {
-            if (!hit) {
-                return false;
-            }
+    public boolean isHit(Point point) {
+        int index = coordinates.indexOf(point);
+        if (index == -1) {
+            return false;
+        } else {
+            return hitStatus[index];
         }
-        return true;
     }
+
+    public boolean isSunk() {
+        return IntStream.range(0, coordinates.size())
+                .allMatch(i -> hitStatus[i]);
+    }
+
 
     public boolean[] getHitStatus() {
         return this.hitStatus;
     }
 
+    public boolean occupiedCell(int targetRow, int targetColumn) {
+        if (board.getBoard()[targetRow][targetColumn] == CellState.OCCUPIED.getSymbol()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean missedCell(int targetRow, int targetColumn) {
+        if (board.getBoard()[targetRow][targetColumn] == CellState.MISSED.getSymbol()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean emptyCell(int targetRow, int targetColumn) {
+        if (board.getBoard()[targetRow][targetColumn] == CellState.EMPTY.getSymbol()) {
+            return true;
+        }
+        return false;
+    }
     public boolean checkHit(Point p) {
         for (int i = 0; i < coordinates.size(); i++) {
-            if (coordinates.get(i).equals(p)) {
+            if (coordinates.get(i).equals(p) && !emptyCell(p.getX(), p.getY())) {
                 hitStatus[i] = true;
                 board.setBoardHit(p.getX(), p.getY());
                 return true;
@@ -72,11 +98,6 @@ public class Ship {
     }
 
 
-    boolean isHit(Point point) {
-        return (coordinates.contains(point));
-    }
-
-
     public int getLength() {
         return this.length;
     }
@@ -84,9 +105,4 @@ public class Ship {
     public String getName() {
         return this.name;
     }
-
-
-
-
-
 }
